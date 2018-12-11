@@ -18,7 +18,7 @@
  */
 package com.wxmp.core.util;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
 
@@ -35,7 +35,7 @@ import java.util.regex.Pattern;
  * mobile enterprise application platform
  * Version 0.1
  */
-public class StringUtil extends StringUtils{
+public class StringUtil extends StringUtils {
 	
 	public static String _HREF_URL_REGEX = "(http:|https:)//[^[A-Za-z0-9\\._\\?%&+\\-=/#!]]*";
 	public static final String EMPTY_STRING = "";

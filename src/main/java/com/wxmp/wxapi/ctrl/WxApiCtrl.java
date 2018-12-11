@@ -23,7 +23,6 @@ import com.wxmp.core.common.BaseCtrl;
 import com.wxmp.core.exception.WxErrorException;
 import com.wxmp.core.util.AjaxResult;
 import com.wxmp.core.util.DateUtil;
-import com.wxmp.core.util.UploadUtil;
 import com.wxmp.core.util.wx.SignUtil;
 import com.wxmp.wxapi.process.*;
 import com.wxmp.wxapi.service.MyService;
@@ -34,7 +33,7 @@ import com.wxmp.wxcms.domain.MsgText;
 import com.wxmp.wxcms.service.MsgNewsService;
 import com.wxmp.wxcms.service.MsgTextService;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -279,26 +278,6 @@ public class WxApiCtrl extends BaseCtrl {
 			log.info("-------------------------------------oauthOpenid-----<4>-------------------");
 			return mv;
 		}
-	}
-	
-	/**
-	 * 生成二维码
-	 * @param request
-	 * @param num 二维码参数
-	 * @return
-	 */
-	@RequestMapping(value = "/createQrcode", method = RequestMethod.POST)
-	public ModelAndView createQrcode(HttpServletRequest request, Integer num) throws WxErrorException {
-		ModelAndView mv = new ModelAndView("wxcms/qrcode");
-		mv.addObject("cur_nav", "qrcode");
-		MpAccount mpAccount = WxMemoryCacheClient.getMpAccount();//获取缓存中的唯一账号
-		if(num != null){
-			byte[] qrcode = WxApiClient.createQRCode(60,num,mpAccount);//有效期60s
-			String url = UploadUtil.byteToImg(request.getServletContext().getRealPath("/"), qrcode);
-			mv.addObject("qrcode", url);
-		}
-		mv.addObject("num", num);
-		return mv;
 	}
 	
 	//以根据openid群发文本消息为例

@@ -33,7 +33,7 @@ import com.wxmp.wxcms.domain.MsgArticle;
 import com.wxmp.wxcms.domain.MsgNews;
 import com.wxmp.wxcms.service.MsgArticleService;
 import com.wxmp.wxcms.service.MsgNewsService;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

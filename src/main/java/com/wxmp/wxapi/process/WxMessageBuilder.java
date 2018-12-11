@@ -26,7 +26,7 @@ import com.wxmp.wxapi.vo.MsgResponseNews;
 import com.wxmp.wxapi.vo.MsgResponseText;
 import com.wxmp.wxcms.domain.MsgNews;
 import com.wxmp.wxcms.domain.MsgText;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Date;

@@ -22,6 +22,7 @@ import com.google.common.collect.ImmutableMap;
 import com.wxmp.core.common.BaseCtrl;
 import com.wxmp.core.common.Constants;
 import com.wxmp.core.util.AjaxResult;
+import com.wxmp.core.util.PropertiesUtil;
 import com.wxmp.wxcms.service.SysConfigService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

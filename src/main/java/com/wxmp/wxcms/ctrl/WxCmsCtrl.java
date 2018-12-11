@@ -20,18 +20,14 @@ package com.wxmp.wxcms.ctrl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.wxmp.core.common.BaseCtrl;
-import com.wxmp.core.spring.SpringFreemarkerContextPathUtil;
 import com.wxmp.core.util.AjaxResult;
-import com.wxmp.core.util.PropertiesConfigUtil;
-import com.wxmp.core.util.UploadUtil;
 import com.wxmp.wxapi.process.MediaType;
 import com.wxmp.wxapi.process.MpAccount;
 import com.wxmp.wxapi.process.WxApiClient;
 import com.wxmp.wxapi.process.WxMemoryCacheClient;
-import com.wxmp.wxapi.vo.Material;
-import com.wxmp.wxapi.vo.MaterialArticle;
-import com.wxmp.wxapi.vo.MaterialItem;
-import com.wxmp.wxcms.domain.*;
+import com.wxmp.wxcms.domain.Account;
+import com.wxmp.wxcms.domain.ImgResource;
+import com.wxmp.wxcms.domain.SysUser;
 import com.wxmp.wxcms.mapper.AccountDao;
 import com.wxmp.wxcms.service.MsgNewsService;
 import com.wxmp.wxcms.service.SysUserService;
@@ -50,7 +46,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.File;
-import java.io.IOException;
 import java.util.*;
 
 /**
@@ -118,29 +113,6 @@ public class WxCmsCtrl extends BaseCtrl {
 		return AjaxResult.success(account);
 	}
 	
-	@RequestMapping(value = "/ckeditorImage")
-	public void ckeditorImage(HttpServletRequest request, HttpServletResponse response, @RequestParam(value="imgFile",required=false)MultipartFile file){
-		String contextPath = SpringFreemarkerContextPathUtil.getBasePath(request);
-		String url = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + contextPath;
-		String realPath = request.getSession().getServletContext().getRealPath("/");
-		
-		//读取配置文上传件的路径
-		if(PropertiesConfigUtil.getProperty("property/upload.properties","upload.path") != null){
-			realPath = PropertiesConfigUtil.getProperty("property/upload.properties","upload.path").toString();
-		}
-		
-		JSONObject obj = new JSONObject();
-		if(file != null && file.getSize() > 0){
-			String tmpPath = UploadUtil.doUpload(realPath,file);//上传文件，上传文件到 /res/upload/ 下
-			obj.put("error", 0);
-			obj.put("url", url + tmpPath);
-		}
-		try {
-			response.getWriter().write(obj.toString());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
 
 	//上传永久素材，这里以图文消息为例子
 	@RequestMapping(value = "/toUploadMaterial")

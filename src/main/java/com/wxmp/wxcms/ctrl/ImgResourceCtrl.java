@@ -29,6 +29,7 @@ import com.wxmp.wxcms.service.ImgResourceService;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -83,20 +84,19 @@ public class ImgResourceCtrl extends BaseCtrl {
 		//系统生成的文件名
 		String fileName = System.currentTimeMillis() + new Random().nextInt(10000) + "." + ext;
 		//图片上传路径
-		String resURL = PropertiesUtil.getString("res.upload.url").toString();
-		String filePath = request.getSession().getServletContext().getRealPath("/");
-
+		String resURL = PropertiesUtil.getString("res.upload.url");
+		String filePath = ResourceUtils.getURL(ResourceUtils.CLASSPATH_URL_PREFIX).getPath();
 		//读取配置文上传件的路径
 		if (PropertiesUtil.getString("res.upload.path") != null) {
-            filePath = PropertiesUtil.getString("res.upload.path").toString() + fileName;
+			filePath = PropertiesUtil.getString("res.upload.path") + fileName;
 		} else {
 			filePath = filePath + "/upload/" + fileName;
 		}
 
 		File saveFile = new File(filePath);
 
-		if (!saveFile.exists()) {
-			saveFile.mkdirs();
+		if (!saveFile.getParentFile().exists()) {
+			saveFile.getParentFile().mkdirs();
 		}
 		file.transferTo(saveFile);
 
@@ -150,20 +150,19 @@ public class ImgResourceCtrl extends BaseCtrl {
 		//系统生成的文件名
 		String fileName = System.currentTimeMillis() + new Random().nextInt(10000) + "." + ext;
 		//图片上传路径
-		String resURL = PropertiesUtil.getString("res.upload.url").toString();
-		String filePath = request.getSession().getServletContext().getRealPath("/");
-
+		String resURL = PropertiesUtil.getString("res.upload.url");
+		String filePath = ResourceUtils.getURL(ResourceUtils.CLASSPATH_URL_PREFIX).getPath();
 		//读取配置文上传件的路径
 		if (PropertiesUtil.getString("res.upload.path") != null) {
-			filePath = PropertiesUtil.getString("res.upload.path").toString() + fileName;
+			filePath = PropertiesUtil.getString("res.upload.path") + fileName;
 		} else {
 			filePath = filePath + "/upload/" + fileName;
 		}
 
 		File saveFile = new File(filePath);
 
-		if (!saveFile.exists()) {
-			saveFile.mkdirs();
+		if (!saveFile.getParentFile().exists()) {
+			saveFile.getParentFile().mkdirs();
 		}
 		file.transferTo(saveFile);
 		//构造返回参数

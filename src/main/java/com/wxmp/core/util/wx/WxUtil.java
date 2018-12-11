@@ -31,7 +31,7 @@ import com.wxmp.wxcms.domain.MsgText;
 import com.wxmp.wxcms.mapper.MsgNewsDao;
 import com.wxmp.wxcms.mapper.MsgTextDao;
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;

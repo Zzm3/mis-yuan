@@ -21,7 +21,7 @@ package com.wxmp.wxapi.interceptor;
 import com.wxmp.core.util.HttpUtil;
 import com.wxmp.wxapi.process.*;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.servlet.http.HttpServletRequest;
