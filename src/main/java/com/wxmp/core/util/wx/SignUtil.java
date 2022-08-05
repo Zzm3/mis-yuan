@@ -41,8 +41,8 @@ public class SignUtil {
 		String[] paramArr = new String[] { tocken, timestamp, nonce };
 		//对token、timestamp、nonce 进行字典排序，并拼接成字符串
 		Arrays.sort(paramArr);
-		StringBuilder sb = new StringBuilder(paramArr[0]);
-		sb.append(paramArr[1]).append(paramArr[2]);
+		StringBuilder sb = new StringBuilder();
+		sb.append(paramArr[0]).append(paramArr[1]).append(paramArr[2]);
 		String ciphertext = null;
 		try {
 			MessageDigest md = MessageDigest.getInstance("SHA-1");

@@ -81,7 +81,7 @@
 	</select>
 	
 	<select id="getRandomMsg" parameterType="java.lang.Integer" resultType="com.wxmp.wxcms.domain.MsgNews">
-		SELECT t.* from wxcms_msg_news t , wxcms_msg_base b
+		SELECT t.* from wxcms_msg_news t , wxcms_msg_base bmsgtext
 		WHERE t.base_id = b.id 
 		ORDER BY RAND() LIMIT #{num}
 	</select>

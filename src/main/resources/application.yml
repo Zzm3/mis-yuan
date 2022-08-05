@@ -1,18 +1,18 @@
 # Tomcat
 server:
-    tomcat:
-        max-threads: 10
-        min-spare-threads: 10
-    port: 80
+  port: 80
+  tomcat:
+    accept-count: 500
+    max-threads: 500
 
 # mysql
 spring:
     datasource:
         type: com.alibaba.druid.pool.DruidDataSource
         driverClassName: com.mysql.jdbc.Driver
-        url: jdbc:mysql://localhost:3306/wxmp?useUnicode=true&characterEncoding=utf-8&useSSL=false
+        url: jdbc:mysql://42.192.41.134:3306/wxmp?useUnicode=true&characterEncoding=utf-8&useSSL=false
         username: root
-        password: root
+        password: zzm123456
     jackson:
         time-zone: GMT+8
         date-format: yyyy-MM-dd HH:mm:ss

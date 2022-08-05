@@ -73,6 +73,7 @@ public class MyServiceImpl implements MyService {
      * @param msgRequest : 接收到的消息
      * @param mpAccount ： appId
      */
+    @Override
     public String processMsg(MsgRequest msgRequest, MpAccount mpAccount)  throws WxErrorException {
         String msgtype = msgRequest.getMsgType();// 接收到的消息类型
         String respXml = null;// 返回的内容；

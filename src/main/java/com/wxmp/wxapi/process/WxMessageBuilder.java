@@ -71,7 +71,7 @@ public class WxMessageBuilder {
 			responseNews.setToUserName(msgRequest.getFromUserName());
 			responseNews.setFromUserName(msgRequest.getToUserName());
 			responseNews.setMsgType(MsgType.News.toString());
-			responseNews.setCreateTime(new Date().getTime());
+			responseNews.setCreateTime(System.currentTimeMillis());
 			responseNews.setArticleCount(msgNews.size());
 			List<Article> articles = new ArrayList<Article>(msgNews.size());
 			for(MsgNews n : msgNews){

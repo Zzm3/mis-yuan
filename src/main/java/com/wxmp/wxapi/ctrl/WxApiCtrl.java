@@ -18,6 +18,7 @@
  */
 package com.wxmp.wxapi.ctrl;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.wxmp.core.common.BaseCtrl;
 import com.wxmp.core.exception.WxErrorException;
@@ -27,13 +28,16 @@ import com.wxmp.core.util.wx.SignUtil;
 import com.wxmp.wxapi.process.*;
 import com.wxmp.wxapi.service.MyService;
 import com.wxmp.wxapi.vo.*;
+import com.wxmp.wxcms.domain.Account;
 import com.wxmp.wxcms.domain.AccountFans;
 import com.wxmp.wxcms.domain.MsgNews;
 import com.wxmp.wxcms.domain.MsgText;
+import com.wxmp.wxcms.service.AccountService;
 import com.wxmp.wxcms.service.MsgNewsService;
 import com.wxmp.wxcms.service.MsgTextService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -59,6 +63,9 @@ public class WxApiCtrl extends BaseCtrl {
 	private MsgTextService msgTextService;
 	@Resource
 	private MsgNewsService msgNewsService;
+
+	@Autowired
+	private AccountService entityService;
 	
 	/**
 	 * GET请求：进行URL、Tocken 认证；
@@ -70,28 +77,30 @@ public class WxApiCtrl extends BaseCtrl {
 	public @ResponseBody
     String doGet(HttpServletRequest request, @PathVariable String account) {
 		//如果是多账号，根据url中的account参数获取对应的MpAccount处理即可
-		
+		log.info("account:{}",account);
 		Set<String> keySet = request.getParameterMap().keySet();
 		Iterator<String> iterator = keySet.iterator();
         while(iterator.hasNext()){  
             //如果存在，则调用next实现迭代  
             String key=iterator.next();
-			log.info("key: " + key + " value: " + request.getParameterMap().get(key));
+			log.info("key: " + key + " value: " + JSON.toJSONString(request.getParameterMap().get(key)));
         }
-		
-		
 		MpAccount mpAccount = WxMemoryCacheClient.getMpAccount();//获取缓存中的唯一账号
+		String token = null;
 		if(mpAccount != null){
-			String token = mpAccount.getToken();//获取token，进行验证；
-			String signature = request.getParameter("signature");// 微信加密签名
-			String timestamp = request.getParameter("timestamp");// 时间戳
-			String nonce = request.getParameter("nonce");// 随机数
-			String echostr = request.getParameter("echostr");// 随机字符串
-			
-			// 校验成功返回  echostr，成功成为开发者；否则返回error，接入失败
-			if (SignUtil.validSign(signature, token, timestamp, nonce)) {
-				return echostr;
-			}
+			token = mpAccount.getToken();//获取token，进行验证；
+		}else {
+			Account singleAccount = entityService.getByAccount(account);
+			token = singleAccount.getToken();
+		}
+		String signature = request.getParameter("signature");// 微信加密签名
+		String timestamp = request.getParameter("timestamp");// 时间戳
+		String nonce = request.getParameter("nonce");// 随机数
+		String echostr = request.getParameter("echostr");// 随机字符串
+
+		// 校验成功返回  echostr，成功成为开发者；否则返回error，接入失败
+		if (SignUtil.validSign(signature, token, timestamp, nonce)) {
+			return echostr;
 		}
 		return "error";
 	}
@@ -106,6 +115,7 @@ public class WxApiCtrl extends BaseCtrl {
 		MpAccount mpAccount = WxMemoryCacheClient.getMpAccount(account);
 		try {
 			MsgRequest msgRequest = MsgXmlUtil.parseXml(request);//获取发送的消息
+			log.info("接收到的消息:{}",JSON.toJSONString(msgRequest));
 			return myService.processMsg(msgRequest,mpAccount);
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -93,8 +93,11 @@ public class WxCmsCtrl extends BaseCtrl {
 	@RequestMapping(value = "/getUrl")
 	@ResponseBody
 	public AjaxResult getUrl(Account account){
-		String url = "/wxapi/" + account.getAccount() + "/message.html";
-		
+		String url = "/wxapi/" + account.getAccount() + "/message";
+		Account dao = accountDao.getByAccount(account.getAccount());
+		if (dao != null) {
+			return AjaxResult.failure("公众号已存在");
+		}
 		if(account.getId() == null){//新增
 			account.setUrl(url);
 			account.setToken(UUID.randomUUID().toString().replace("-", ""));
