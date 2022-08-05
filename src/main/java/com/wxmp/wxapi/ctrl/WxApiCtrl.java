@@ -116,6 +116,7 @@ public class WxApiCtrl extends BaseCtrl {
 		try {
 			MsgRequest msgRequest = MsgXmlUtil.parseXml(request);//获取发送的消息
 			log.info("接收到的消息:{}",JSON.toJSONString(msgRequest));
+			log.info("公众号:{}",account);
 			return myService.processMsg(msgRequest,mpAccount);
 		} catch (Exception e) {
 			e.printStackTrace();
